@@ -300,7 +300,7 @@ DAT.Globe = function(container, opts) {
       curveSegments: 1,
       bevelEnabled: true,
   		bevelThickness: 0,
-  		bevelSize: .2,
+  		bevelSize: .3,
   		bevelOffset: 0,
   		bevelSegments: 1
     } );

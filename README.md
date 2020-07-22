@@ -4,7 +4,7 @@ MUSO, the authority on digital piracy, collected and published data on the pirac
 We achieved this by mapping together multiple data sources to “triangulate the truth” of piracy activity on the year’s most hotly anticipated TV series.
 
 Explore the visualisation
-ofedo.github.io/3d-globe
+https://ofedo.github.io/3d-globe
 
 One data source MUSO uses to understand piracy behaviour is the torrent network, used for unlicensed file sharing.
 MUSO’s torrent discovery system identified Game of Thrones torrents in the first 2-3 minutes of their upload. 

@@ -293,7 +293,6 @@ DAT.Globe = function(container, opts) {
   }
 
   function addTextMesh(phi, theta, text, textSize, sizeOffset, yOffset, color, textMeshArray) {
-    var textGeometry = new THREE.TextGeometry( text, {
     var textShadowGeometry = new THREE.TextGeometry( text, {
       font: 'circular book',
       size: textSize,

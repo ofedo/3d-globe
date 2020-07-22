@@ -22,7 +22,7 @@ DAT.Globe = function(container, opts) {
 
   var colorFn = opts.colorFn || function(x) {
     var c = new THREE.Color();
-    c.setHSL( ( 0.4 - ( x / maxData * .8 ) ), 1.0, 0.4 - ( x / maxData * .1 ));
+    c.setHSL( ( 0.4 + ( x / maxData * .3 ) ), 1.0, 0.4 - ( x / maxData * .05 ));
     return c;
   };
   var imgDir = opts.imgDir || './';

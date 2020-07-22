@@ -165,27 +165,35 @@
     #legend {
       display: none;
       position: fixed;
-      left: 300px;
-      right: 0;
-      bottom: 60px;
+      border-radius: 4px;
+      right: 25px;
+      bottom: 80px;
+      height: 6px;
+      width: 480px;
       text-align: center;
+      box-shadow: 0px 0px 20px 20px #ffffff;
     }
 
     #legend span {
       display: inline-block;
       height: 12px;
       width: 12px;
-      margin: 0 30px;
+      margin-right: 46px;
       border-radius: 50%;
-    }
+      top: -3px;
+      position: relative;
+   }
 
-    #legend span div {
+   #legend span:last-child {
+     margin: 0;
+   }
+
+   #legend span div {
       position: relative;
       top: 12px;
       left: -30px;
       width: 72px;
-      text-align: center;
-    }
+   }
   </style>
 </head>
 
@@ -263,7 +271,7 @@
 
           appendTotal(total);
 
-          appendLegend(globe, objData, 5);
+          appendLegend(globe, objData, 7);
 
           setTimeout(function() {
             document.body.style.backgroundImage = 'none'; // remove loading
@@ -325,12 +333,17 @@
     function appendLegend(globe, objData, numColors) {
       var legendElem = document.getElementById('legend');
 
+      var background = 'linear-gradient(90deg, ';
+
       var colorSpanElem = document.createElement('span');
       var magnitudeDivElem = document.createElement('div');
       var textNode = document.createTextNode(objData[objData.length - 1].magnitude.toLocaleString());
       magnitudeDivElem.appendChild(textNode);
       colorSpanElem.appendChild(magnitudeDivElem);
+
       var color = globe.colorFn(objData[objData.length - 1].magnitude);
+      background += 'rgb(' + color.r * 255 + ', ' + color.g * 255 + ', ' + color.b * 255 + ') 0%, ';
+
       colorSpanElem.style.backgroundColor = 'rgb(' + color.r * 255 + ', ' + color.g * 255 + ', ' + color.b * 255 + ')';
       legendElem.appendChild(colorSpanElem);
 
@@ -338,22 +351,30 @@
       for (var i = 1; i <= numColors; i++) {
         var colorSpanElem = document.createElement('span');
         var magnitudeDivElem = document.createElement('div');
-        var textNode = document.createTextNode((step * i).toLocaleString());
+        var textNode = document.createTextNode((step * i) / 1000 + 'k');
         magnitudeDivElem.appendChild(textNode);
         colorSpanElem.appendChild(magnitudeDivElem);
-        var color = globe.colorFn(step * i);
+
+        color = globe.colorFn(step * i);
+        background += 'rgb(' + color.r * 255 + ', ' + color.g * 255 + ', ' + color.b * 255 + ')' + 100 / (numColors + 1) * i + '%, ';
+
         colorSpanElem.style.backgroundColor = 'rgb(' + color.r * 255 + ', ' + color.g * 255 + ', ' + color.b * 255 + ')';
         legendElem.appendChild(colorSpanElem);
       }
 
       var colorSpanElem = document.createElement('span');
       var magnitudeDivElem = document.createElement('div');
-      var textNode = document.createTextNode((120000).toLocaleString());
+      var textNode = document.createTextNode((160000 / 1000 + 'k').toLocaleString());
       magnitudeDivElem.appendChild(textNode);
       colorSpanElem.appendChild(magnitudeDivElem);
-      var color = globe.colorFn(130000);
+
+      color = globe.colorFn(160000);
+      background += 'rgb(' + color.r * 255 + ', ' + color.g * 255 + ', ' + color.b * 255 + ') 100%';
+
       colorSpanElem.style.backgroundColor = 'rgb(' + color.r * 255 + ', ' + color.g * 255 + ', ' + color.b * 255 + ')';
       legendElem.appendChild(colorSpanElem);
+
+      legendElem.style.background = background;
     }
   </script>
 

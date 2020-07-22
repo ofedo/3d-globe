@@ -22,7 +22,7 @@ DAT.Globe = function(container, opts) {
 
   var colorFn = opts.colorFn || function(x) {
     var c = new THREE.Color();
-    c.setHSL( ( 0.4 + ( x / maxData * .3 ) ), 1.0, 0.4 - ( x / maxData * .05 ));
+    c.setHSL( ( 0.4 - ( x / maxData * .3 ) ), 1.0, 0.4 - ( x / maxData * .05 ));
     return c;
   };
   var imgDir = opts.imgDir || './';
@@ -294,19 +294,54 @@ DAT.Globe = function(container, opts) {
 
   function addTextMesh(phi, theta, text, textSize, sizeOffset, yOffset, color, textMeshArray) {
     var textGeometry = new THREE.TextGeometry( text, {
+    var textShadowGeometry = new THREE.TextGeometry( text, {
       font: 'circular book',
       size: textSize,
       height: .1,
+      curveSegments: 1,
+      bevelEnabled: true,
+  		bevelThickness: 0,
+  		bevelSize: .2,
+  		bevelOffset: 0,
+  		bevelSegments: 1
+    } );
+
+    var textGeometry = new THREE.TextGeometry( text, {
+      font: 'circular book',
+      size: textSize,
+      height: .2,
       curveSegments: 1
+      // bevelEnabled: true,
+  		// bevelThickness: 10,
+  		// bevelSize: 8,
+  		// bevelOffset: 0,
+  		// bevelSegments: 5
     } );
     for (var i = 0; i < textGeometry.faces.length; i++) {
       textGeometry.faces[i].color = color;
     }
 
+    var textShadowMesh = new THREE.Mesh(textShadowGeometry, new THREE.MeshBasicMaterial({
+          color: 0xffffff,
+          // transparent: true,
+          // opacity: .25,
+          morphTargets: false
+        }));
+
+    textShadowMesh.position.x = sizeOffset * Math.sin(phi) * Math.cos(theta);
+    textShadowMesh.position.y = sizeOffset * Math.cos(phi) + yOffset;
+    textShadowMesh.position.z = sizeOffset * Math.sin(phi) * Math.sin(theta);
+
+    textShadowMesh.lookAt(camera.position);
+
+    textMeshArray.push(textShadowMesh);
+    scene.add(textShadowMesh);
+
+
     var textMesh = new THREE.Mesh(textGeometry, new THREE.MeshBasicMaterial({
           color: 0xffffff,
-          transparent: true,
-          opacity: .75,
+          // transparent: true,
+          // opacity: .75,
           vertexColors: THREE.FaceColors,
           morphTargets: false
         }));
@@ -416,7 +451,7 @@ DAT.Globe = function(container, opts) {
 
     camera.lookAt(mesh.position);
 
-    updateText(textMeshSizeArray, distanceTarget * 0.0017);
+    updateText(textMeshSizeArray, distanceTarget * 0.0027);
     updateText(textMeshCityArray, distanceTarget * 0.0015);
 
     renderer.render(scene, camera);
